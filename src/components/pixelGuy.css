@@ -1,0 +1,41 @@
+.pixel-crawl-container {
+  position: fixed;
+  bottom: 0;
+  pointer-events: none; /* Ignore mouse */
+  z-index: 9999; /* Sit on top */
+  overflow: hidden; /* Hide parts of GIF outside container */
+}
+
+.pixel-crawl-container.hidden {
+  opacity: 0; /* Completely hide when not animating */
+}
+
+.pixel-guy {
+  position: absolute;
+  bottom: 0; /* Align GIF bottom to container bottom */
+  width: 100%; /* Match container width */
+  height: auto; /* Preserve GIF aspect ratio */
+  image-rendering: pixelated; /* Keep pixel art sharp */
+}
+
+.pixel-crawl-container.peek .pixel-guy {
+  animation: peek-up-down 3s ease-in-out forwards;
+}
+
+@keyframes peek-up-down {
+  0% {
+    transform: translateY(100%); /* Start fully below */
+  }
+  20% {
+    transform: translateY(0); /* Fully visible */
+  }
+  80% {
+    transform: translateY(0); /* Stay visible for GIF to play */
+  }
+  90% {
+    transform: translateY(0); /* Stay visible for GIF to play */
+  }
+  100% {
+    transform: translateY(100%); /* Slide back down */
+  }
+}

@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Dot from '@nsmr/pixelart-react';
 
 interface HeaderProps {
     activePage: 'home' | 'history' | 'practice' | 'about';
@@ -27,16 +26,15 @@ const Header: React.FC<HeaderProps> = ({ activePage }) => {
 
                 <div className="md:hidden flex items-center space-x-3">
                     <img src="/logo_green_bg.png" alt="Logo" className="w-15" />
-                    <span className="text-3xl font-mono uppercase tracking-wider text-yellow-300">
-                        {currentPageLabel}
-                    </span>
+                    {(!isMenuOpen) &&
+                        <span className="text-3xl font-mono uppercase tracking-wider text-yellow-300">
+                            {currentPageLabel}
+                        </span>
+                    }
                 </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex justify-center items-center space-x-6">
-                    {activePage !== 'home' && (
-                        <Dot name='dot' size={16} className="text-yellow-400 ml-2 mr-1" />
-                    )}
                     <ul className="flex space-x-6">
                         {navItems.map((item) => (
                             <li key={item.key}>
