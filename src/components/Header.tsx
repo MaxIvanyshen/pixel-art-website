@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ activePage }) => {
             </div>
 
             <div className={`md:hidden transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-                <nav className="py-4">
+                <nav className="py-4 bg-[rgb(44,44,44)] w-100h">
                     <ul className="flex flex-col space-y-4">
                         {navItems.map((item) => (
                             <li key={item.key}>
