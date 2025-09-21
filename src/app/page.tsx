@@ -13,7 +13,7 @@ export default function Home() {
                     maxHeight={40}
                     minWidth={15}
                     maxWidth={25}
-                    interval={5000}
+                    interval={25000}
                 />
             </div>
         </div >
