@@ -35,12 +35,6 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
     };
 
     useEffect(() => {
-
-        const { size: initialSize, position: initialPosition } = randomize();
-        setSize(initialSize);
-        setPosition(initialPosition);
-        setShow(true);
-
         const intervalId = setInterval(() => {
             setShow(false); // Hide to reset
             const { size: newSize, position: newPosition } = randomize();

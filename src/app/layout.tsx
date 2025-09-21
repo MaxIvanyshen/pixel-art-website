@@ -22,7 +22,7 @@ export default function RootLayout({
                     maxHeight={40}
                     minWidth={15}
                     maxWidth={25}
-                    interval={25000}
+                    interval={(+process.env.NEXT_PUBLIC_PIXEL_GUY_INTERVAL_SECONDS! || 25) * 1000}
                 />
                 {children}
             </body>
