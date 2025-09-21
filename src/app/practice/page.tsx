@@ -2,13 +2,19 @@ import Header from '@/components/Header';
 
 export default function Practice() {
     return (
-        <div style={{
-            backgroundImage: `linear-gradient(rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            minHeight: '100vh'
-        }}>
-            <Header activePage='practice' />
-        </div >
+        <>
+            <head>
+                <title>PRACTICE</title>
+                <meta name="description" content="Practice your pixel art skills here" />
+            </head>
+            <div style={{
+                backgroundImage: `linear-gradient(rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                minHeight: '100vh'
+            }}>
+                <Header activePage='practice' />
+            </div >
+        </>
     );
 }
