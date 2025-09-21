@@ -1,7 +1,14 @@
 import Header from '@/components/Header';
 
-export default function PracticePage() {
+export default function Practice() {
     return (
-        <Header activePage='practice' />
+        <div style={{
+            backgroundImage: `linear-gradient(rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            minHeight: '100vh'
+        }}>
+            <Header activePage='practice' />
+        </div >
     );
 }

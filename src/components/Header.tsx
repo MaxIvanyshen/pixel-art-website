@@ -13,13 +13,13 @@ const Header: React.FC<HeaderProps> = ({ activePage }) => {
         { label: 'Home', href: '/', key: 'home' },
         { label: 'History', href: '/history', key: 'history' },
         { label: 'Practice', href: '/practice', key: 'practice' },
-        { label: 'About Me', href: '/about', key: 'about' },
+        { label: 'About', href: '/about', key: 'about' },
     ];
 
     const currentPageLabel = navItems.find(item => item.key === activePage)?.label || 'Home';
 
     return (
-        <header className="bg-[rgb(44,44,44)] text-yellow-400 px-4 py-2 border-b-4 border-yellow-400 h-20">
+        <header className="bg-[rgb(44,44,44)] z-[9999] text-yellow-400 px-4 py-2 border-b-4 border-yellow-400 h-20">
             <div className="flex items-center justify-between h-full">
 
                 <img src="/logo_green_bg.png" alt="Logo" className="w-15 hidden md:flex" />
