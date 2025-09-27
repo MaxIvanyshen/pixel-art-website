@@ -1,32 +1,32 @@
 'use client'
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import Toolbar from '@/components/Toolbar';
-import Palette from '@/components/Palette';
-import { downloadURI } from '@/utils/download';
+import React, { useRef, useEffect, useState, useCallback } from 'react'
+import Toolbar from '@/components/Toolbar'
+import Palette from '@/components/Palette'
+import { downloadURI } from '@/utils/download'
 
-type Pixel = string | null;
+type Pixel = string | null
 
 const clonePixels = (src: Pixel[][]) => src.map(row => [...row])
 
 const savePixelsToLocalStorage = (pixels: Pixel[][]) => {
     try {
-        localStorage.setItem('pixelArt', JSON.stringify(pixels));
-        console.log('Pixel art saved to localStorage');
+        localStorage.setItem('pixelArt', JSON.stringify(pixels))
+        console.log('Pixel art saved to localStorage')
     } catch (e) {
-        console.error('Failed to save pixel art to localStorage:', e);
+        console.error('Failed to save pixel art to localStorage:', e)
     }
 }
 
 const readPixelsFromLocalStorage = (): Pixel[][] | null => {
     try {
-        const data = localStorage.getItem('pixelArt');
+        const data = localStorage.getItem('pixelArt')
         if (data) {
-            return JSON.parse(data);
+            return JSON.parse(data)
         }
     } catch (e) {
-        console.error('Failed to read pixel art from localStorage:', e);
+        console.error('Failed to read pixel art from localStorage:', e)
     }
-    return null;
+    return null
 }
 
 interface PixelArtEditorProps {
@@ -46,274 +46,262 @@ export default function PixelArtEditor({
         '#800000', '#008000', '#000080', '#808000', '#800080', '#008080',
     ],
 }: PixelArtEditorProps) {
+    // Core state
+    const [pixelSize, setPixelSize] = useState(initialPixelSize)
+    const [offset, setOffset] = useState({ x: 0, y: 0 })
+    const [pixels, setPixels] = useState<Pixel[][]>(() => {
+        const savedPixels = readPixelsFromLocalStorage()
+        return savedPixels || Array.from({ length: rows }, () => Array(columns).fill(null))
+    })
+    const [selectedColor, setSelectedColor] = useState<string>(palette[0])
+    const [isEraser, setIsEraser] = useState(false)
+    const [isPen, setIsPen] = useState(true)
+    const [isDrawing, setIsDrawing] = useState(false)
+    const [isPanning, setIsPanning] = useState(false)
+    const [moveMode, setMoveMode] = useState(false)
 
-    // try to load saved pixels from localStorage
+    const panStart = useRef({ x: 0, y: 0 })
+    const offsetStart = useRef({ x: 0, y: 0 })
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const wrapperRef = useRef<HTMLDivElement>(null)
+    const undoStack = useRef<Pixel[][][]>([])
+    const redoStack = useRef<Pixel[][][]>([])
+    const drawingStartState = useRef<Pixel[][] | null>(null)
 
-    setInterval(() => {
-        savePixelsToLocalStorage(pixels);
-    }, 25000); // save every 5 seconds
-
-    const [pixelSize, setPixelSize] = useState(initialPixelSize);
-    const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [pixels, setPixels] = useState<Pixel[][]>(() =>
-        Array.from({ length: rows }, () => Array(columns).fill(null))
-    );
-    const [selectedColor, setSelectedColor] = useState<string>(palette[0]);
-    const [isEraser, setIsEraser] = useState(false);
-    const [isPen, setIsPen] = useState(true);
-    const [isDrawing, setIsDrawing] = useState(false);
-    const [isPanning, setIsPanning] = useState(false);
-    const [moveMode, setMoveMode] = useState(false);
-    const [loadedFromStorage, setLoadedFromStorage] = useState(false);
-    const [justCleared, setJustCleared] = useState(false);
-
-    const panStart = useRef({ x: 0, y: 0 });
-    const offsetStart = useRef({ x: 0, y: 0 });
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const wrapperRef = useRef<HTMLDivElement>(null);
-    const undoStack = useRef<Pixel[][][]>([]);
-    const redoStack = useRef<Pixel[][][]>([]);
-    const drawingStartState = useRef<Pixel[][] | null>(null);
-
-    const zoomStep = 5;
-    const minPixelSize = 5;
-    const maxPixelSize = 100;
+    // Zoom controls
+    const zoomStep = 5
+    const minPixelSize = 5
+    const maxPixelSize = 100
 
     const zoomIn = () => {
-        setPixelSize(prev => Math.min(prev + zoomStep, maxPixelSize));
-    };
+        setPixelSize(prev => Math.min(prev + zoomStep, maxPixelSize))
+    }
 
     const zoomOut = () => {
-        setPixelSize(prev => Math.max(prev - zoomStep, minPixelSize));
-    };
+        setPixelSize(prev => Math.max(prev - zoomStep, minPixelSize))
+    }
 
+    // Auto-save to localStorage every 10 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            savePixelsToLocalStorage(pixels)
+        }, 10000) // 10 seconds
+
+        return () => clearInterval(interval)
+    }, [pixels])
+
+
+    // Paint a pixel
     const paintPixel = useCallback(
         (clientX: number, clientY: number) => {
-            const wrapper = wrapperRef.current;
-            if (!wrapper) return;
+            const wrapper = wrapperRef.current
+            if (!wrapper) return
 
-            const canvas = canvasRef.current;
-            if (!canvas) return;
+            const canvas = canvasRef.current
+            if (!canvas) return
 
-            const canvasRect = canvas.getBoundingClientRect();
-            const canvasX = clientX - canvasRect.left;
-            const canvasY = clientY - canvasRect.top;
+            const canvasRect = canvas.getBoundingClientRect()
+            const canvasX = clientX - canvasRect.left
+            const canvasY = clientY - canvasRect.top
 
-            const x = Math.floor(canvasX / pixelSize);
-            const y = Math.floor(canvasY / pixelSize);
+            const x = Math.floor(canvasX / pixelSize)
+            const y = Math.floor(canvasY / pixelSize)
 
-            if (x < 0 || x >= columns || y < 0 || y >= rows) return;
+            if (x < 0 || x >= columns || y < 0 || y >= rows) return
 
             setPixels(prev => {
-                const newColour = isEraser ? null : selectedColor;
-                if (prev[y][x] === newColour) return prev;
+                const newColour = isEraser ? null : selectedColor
+                if (prev[y][x] === newColour) return prev
 
-                const copy = clonePixels(prev);
-                copy[y][x] = newColour;
-                return copy;
-            });
+                const copy = clonePixels(prev)
+                copy[y][x] = newColour
+                return copy
+            })
         },
         [pixelSize, columns, rows, selectedColor, isEraser]
-    );
+    )
 
     // Render canvas
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
 
-        canvas.width = columns * pixelSize;
-        canvas.height = rows * pixelSize;
+        canvas.width = columns * pixelSize
+        canvas.height = rows * pixelSize
 
-        ctx.fillStyle = 'rgb(60,60,60)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgb(60,60,60)'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
 
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < columns; x++) {
-                const colour = pixels[y][x];
+                const colour = pixels[y][x]
                 if (colour) {
-                    ctx.fillStyle = colour;
-                    ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+                    ctx.fillStyle = colour
+                    ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize)
                 }
             }
         }
 
-        ctx.strokeStyle = '#fef08a';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#fef08a'
+        ctx.lineWidth = 1.5
 
         // Draw grid across entire canvas
         for (let i = 0; i <= columns; i++) {
-            ctx.beginPath();
-            ctx.moveTo(i * pixelSize, 0);
-            ctx.lineTo(i * pixelSize, rows * pixelSize);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(i * pixelSize, 0)
+            ctx.lineTo(i * pixelSize, rows * pixelSize)
+            ctx.stroke()
         }
 
         for (let i = 0; i <= rows; i++) {
-            ctx.beginPath();
-            ctx.moveTo(0, i * pixelSize);
-            ctx.lineTo(columns * pixelSize, i * pixelSize);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(0, i * pixelSize)
+            ctx.lineTo(columns * pixelSize, i * pixelSize)
+            ctx.stroke()
         }
-    }, [pixels, columns, rows, pixelSize, offset]);
+    }, [pixels, columns, rows, pixelSize, offset])
 
     // Clamp offset
     const clampOffset = useCallback((x: number, y: number) => {
-        const maxOffset = Math.max(columns, rows) * pixelSize * 2;
+        const maxOffset = Math.max(columns, rows) * pixelSize * 2
         return {
             x: Math.max(-maxOffset, Math.min(maxOffset, x)),
             y: Math.max(-maxOffset, Math.min(maxOffset, y))
-        };
-    }, [columns, rows, pixelSize]);
-
-    useEffect(() => {
-        if (!justCleared && !loadedFromStorage) {
-            const savedPixels = readPixelsFromLocalStorage();
-            if (savedPixels) {
-                setPixels(savedPixels);
-                setLoadedFromStorage(true);
-            }
         }
-    }, [justCleared, loadedFromStorage]);
-
+    }, [columns, rows, pixelSize])
 
     useEffect(() => {
-        setOffset(prev => clampOffset(prev.x, prev.y));
-    }, [pixelSize, clampOffset]);
+        setOffset(prev => clampOffset(prev.x, prev.y))
+    }, [pixelSize, clampOffset])
 
+    const undo = () => {
+        if (!undoStack.current.length) return
+        redoStack.current.push(clonePixels(pixels))
+        setPixels(undoStack.current.pop()!)
+    }
+
+    const redo = () => {
+        if (!redoStack.current.length) return
+        undoStack.current.push(clonePixels(pixels))
+        setPixels(redoStack.current.pop()!)
+    }
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if (e.code === 'Space') {
-                e.preventDefault();
-                setMoveMode(true);
-                setIsPen(false);
+                e.preventDefault()
+                setMoveMode(true)
+                setIsPen(false)
             } else if (e.code === 'KeyZ' && (e.ctrlKey || e.metaKey)) {
-                e.preventDefault();
-                undo();
+                e.preventDefault()
+                undo()
             }
-        };
+        }
         const up = (e: KeyboardEvent) => {
             if (e.code === 'Space') {
-                setMoveMode(false);
-                setIsPen(true);
+                setMoveMode(false)
+                setIsPen(true)
             }
-        };
-        window.addEventListener('keydown', down as any);
-        window.addEventListener('keyup', up as any);
+        }
+        window.addEventListener('keydown', down)
+        window.addEventListener('keyup', up)
         return () => {
-            window.removeEventListener('keydown', down as any)
-            window.removeEventListener('keyup', up as any)
-        };
-    }, []);
+            window.removeEventListener('keydown', down)
+            window.removeEventListener('keyup', up)
+        }
+    }, [undo])
 
     const handlePointerDown = (e: React.PointerEvent) => {
         if (moveMode) {
-            setIsPanning(true);
-            panStart.current = { x: e.clientX, y: e.clientY };
-            offsetStart.current = { ...offset };
-            e.preventDefault();
-            return;
+            setIsPanning(true)
+            panStart.current = { x: e.clientX, y: e.clientY }
+            offsetStart.current = { ...offset }
+            e.preventDefault()
+            return
         }
 
         if ((isPen || isEraser) && (e.button === 0 || e.type === 'touchstart')) {
-            setIsDrawing(true);
-            // Store the state at the start of the drawing session
-            drawingStartState.current = clonePixels(pixels);
-            paintPixel(e.clientX, e.clientY);
-            e.preventDefault();
+            setIsDrawing(true)
+            drawingStartState.current = clonePixels(pixels)
+            paintPixel(e.clientX, e.clientY)
+            e.preventDefault()
         }
     }
 
     const handlePointerMove = (e: React.PointerEvent) => {
         if (isPanning) {
-            const dx = e.clientX - panStart.current.x;
-            const dy = e.clientY - panStart.current.y;
-            const newX = offsetStart.current.x + dx;
-            const newY = offsetStart.current.y + dy;
-            setOffset(clampOffset(newX, newY));
-            e.preventDefault();
-            return;
+            const dx = e.clientX - panStart.current.x
+            const dy = e.clientY - panStart.current.y
+            const newX = offsetStart.current.x + dx
+            const newY = offsetStart.current.y + dy
+            setOffset(clampOffset(newX, newY))
+            e.preventDefault()
+            return
         }
 
         if ((isPen || isEraser) && isDrawing) {
-            paintPixel(e.clientX, e.clientY);
-            e.preventDefault();
+            paintPixel(e.clientX, e.clientY)
+            e.preventDefault()
         }
     }
 
     const handlePointerUp = (e: React.PointerEvent) => {
         if (isDrawing && drawingStartState.current) {
-            // Push the state from the start of the drawing session to undo stack
-            undoStack.current.push(drawingStartState.current);
-            if (undoStack.current.length > 50) undoStack.current.shift();
-            redoStack.current = [];
-            drawingStartState.current = null;
+            undoStack.current.push(drawingStartState.current)
+            if (undoStack.current.length > 50) undoStack.current.shift()
+            redoStack.current = []
+            drawingStartState.current = null
         }
-        setIsDrawing(false);
-        setIsPanning(false);
-        e.preventDefault();
+        setIsDrawing(false)
+        setIsPanning(false)
+        e.preventDefault()
     }
 
     const handlePointerLeave = () => {
         if (isDrawing && drawingStartState.current) {
-            // Push the state from the start of the drawing session to undo stack
-            undoStack.current.push(drawingStartState.current);
-            if (undoStack.current.length > 50) undoStack.current.shift();
-            redoStack.current = [];
-            drawingStartState.current = null;
+            undoStack.current.push(drawingStartState.current)
+            if (undoStack.current.length > 50) undoStack.current.shift()
+            redoStack.current = []
+            drawingStartState.current = null
         }
-        setIsDrawing(false);
-        setIsPanning(false);
+        setIsDrawing(false)
+        setIsPanning(false)
     }
 
     const clearCanvas = () => {
-        undoStack.current.push(clonePixels(pixels));
-        setPixels(Array.from({ length: rows }, () => Array(columns).fill(null)));
-        redoStack.current = [];
-        if (!justCleared) {
-            setJustCleared(true);
-        }
+        undoStack.current.push(clonePixels(pixels))
+        setPixels(Array.from({ length: rows }, () => Array(columns).fill(null)))
+        redoStack.current = []
     }
 
-    const undo = () => {
-        if (!undoStack.current.length) return;
-        redoStack.current.push(clonePixels(pixels));
-        setPixels(undoStack.current.pop()!);
-    }
-
-    const redo = () => {
-        if (!redoStack.current.length) return;
-        undoStack.current.push(clonePixels(pixels));
-        setPixels(redoStack.current.pop()!);
-    }
 
     const downloadImage = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        downloadURI(canvas.toDataURL('image/png'), 'pixel-art.png');
+        const canvas = canvasRef.current
+        if (!canvas) return
+        downloadURI(canvas.toDataURL('image/png'), 'pixel-art.png')
     }
 
-    const resetView = () => setOffset({ x: 0, y: 0 });
+    const resetView = () => setOffset({ x: 0, y: 0 })
     const toggleEraser = () => {
-        setIsEraser(prev => !prev);
+        setIsEraser(prev => !prev)
         if (!isEraser) {
-            setIsPen(false);
-            setMoveMode(false);
+            setIsPen(false)
+            setMoveMode(false)
         }
     }
     const togglePen = () => {
-        setIsPen(prev => !prev);
+        setIsPen(prev => !prev)
         if (!isPen) {
-            setMoveMode(false);
-            setIsEraser(false);
+            setMoveMode(false)
+            setIsEraser(false)
         }
     }
     const toggleMove = () => {
-        setMoveMode(prev => !prev);
+        setMoveMode(prev => !prev)
         if (!moveMode) {
-            setIsPen(false);
-            setIsEraser(false);
+            setIsPen(false)
+            setIsEraser(false)
         }
     }
 
