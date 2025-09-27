@@ -336,8 +336,7 @@ export default function PixelArtEditor({
 
             <div
                 ref={wrapperRef}
-                className="relative overflow-hidden border-4 border-yellow-400 bg-[rgb(44,44,44)] rounded flex items-center justify-center"
-                style={{ width: '640px', height: '640px' }}
+                className="relative overflow-hidden border-4 border-yellow-400 bg-[rgb(44,44,44)] rounded flex items-center justify-center w-[min(90vw,90vh)] h-[min(90vw,90vh)] md:w-[640px] md:h-[640px]"
             >
                 <div
                     style={{
