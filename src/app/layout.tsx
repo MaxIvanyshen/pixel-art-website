@@ -11,10 +11,12 @@ const jersey10 = Jersey_10({
 });
 
 export const metadata: Metadata = {
+    title: "PIXEL ART",
     icons: {
         icon: "/favicon.ico",
     },
 };
+
 export default function RootLayout({
     children,
 }: {

@@ -4,10 +4,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'; // Import ico
 export default function About() {
     return (
         <>
-            <head>
-                <title>ABOUT</title>
-                <meta name="description" content="About me and this pixel art website" />
-            </head>
+            <Header activePage="about" />
             <div
                 style={{
                     backgroundImage: `linear-gradient(rgba(44,44,44,0.68), rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
@@ -16,7 +13,6 @@ export default function About() {
                 }}
                 className="flex flex-col min-h-screen text-white"
             >
-                <Header activePage="about" />
                 <div className="flex flex-col items-center max-h-full justify-center flex-grow px-4 py-8">
                     {/* First Row */}
                     <div className="flex flex-col w-full max-w-5xl mx-auto mt-4 gap-4 md:flex-row md:mt-[-2] md:items-stretch">
