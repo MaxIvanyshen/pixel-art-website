@@ -1,6 +1,7 @@
 'use client';
 import "./pixelGuy.css";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 
 interface PixelGuyProps {
     minHeight?: number; // rem
@@ -27,12 +28,12 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
         interval = 3000;
     }
 
-    const randomize = () => {
+    const randomize = useCallback(() => {
         const randomWidth = Math.random() * (maxWidth - minWidth) + minWidth;
         const randomHeight = Math.random() * (maxHeight - minHeight) + minHeight;
         const randomRight = Math.random() * 80; // 0–80% of viewport width
         return { size: { width: randomWidth, height: randomHeight }, position: { right: randomRight } };
-    };
+    }, [minWidth, maxWidth, minHeight, maxHeight]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -45,7 +46,7 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
         }, interval);
 
         return () => clearInterval(intervalId);
-    }, [interval]);
+    }, [interval, randomize]);
 
     return (
         <div
@@ -57,7 +58,7 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
             }}
         >
             {show && (
-                <img
+                <Image
                     src={`/pixel_animation.gif?reset=${animationKey}`}
                     alt="Pixel Guy"
                     className="pixel-guy"

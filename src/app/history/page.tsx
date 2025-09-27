@@ -1,16 +1,29 @@
-'use client';
-import Header from '@/components/Header';
-import { ReactNode, useState } from 'react';
+'use client'
+import Header from '@/components/Header'
+import { Dispatch, SetStateAction, useState } from 'react'
+import Image from 'next/image'
 
-const Clicker = (slides: ReactNode[], slideIdx: number, setSlideIdx: any) => {
+const Clicker = (slides: React.ReactNode[], slideIdx: number, setSlideIdx: Dispatch<SetStateAction<number>>) => {
     return (
-        <div className='w-full flex flex-col justify-between items-center p-4'>
-            <div className='text-white flex flex-row items-center justify-center'>
+        <div className="w-full flex flex-col justify-between items-center p-4">
+            <div className="text-white flex flex-row items-center justify-center">
                 <button onClick={() => { if (slideIdx > 0) setSlideIdx(slideIdx - 1); }}>
-                    <img src='/pixel_arrow.png' className='h-10 transform scale-x-[-1]' />
+                    <Image
+                        alt="Back arrow"
+                        src="/pixel_arrow.png"
+                        className="h-10 transform scale-x-[-1]"
+                        width={40}
+                        height={40}
+                    />
                 </button>
                 <button onClick={() => { if (slideIdx < slides.length - 1) setSlideIdx(slideIdx + 1); }}>
-                    <img src='/pixel_arrow.png' className='h-10' />
+                    <Image
+                        alt="Next arrow"
+                        src="/pixel_arrow.png"
+                        className="h-10"
+                        width={40}
+                        height={40}
+                    />
                 </button>
             </div>
             {slideIdx + 1} / {slides.length}
@@ -19,21 +32,22 @@ const Clicker = (slides: ReactNode[], slideIdx: number, setSlideIdx: any) => {
 }
 
 interface PresentationProps {
-    slides: React.ReactNode[];
-    bg?: string;
+    slides: React.ReactNode[]
+    bg?: string
 }
 
 const Presentation: React.FC<PresentationProps> = ({ slides, bg }) => {
-    const [slideIdx, setSlideIdx] = useState(0);
+    const [slideIdx, setSlideIdx] = useState(0)
 
     return (
         <div
-            className={`text-white bg-[${bg}] w-full md:max-h-[70vh] flex flex-col justify-between overflow-hidden`}>
+            className={`text-white bg-[${bg}] w-full md:max-h-[70vh] flex flex-col justify-between overflow-hidden`}
+        >
             <div className="flex-1 overflow-hidden">{slides[slideIdx]}</div>
             <div className="shrink-0">{Clicker(slides, slideIdx, setSlideIdx)}</div>
         </div>
-    );
-};
+    )
+}
 
 const EarlyOriginsSlide = () => (
     <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
@@ -55,31 +69,35 @@ const EarlyOriginsSlide = () => (
         </div>
 
         <div className="col-span-12 md:mt-12 md:col-span-5 flex items-center justify-center">
-            <img
+            <Image
                 src="/mosaic.jpeg"
                 alt="Mosaic"
                 className="w-auto max-h-[28vh] mr-2 object-contain"
+                width={300}
+                height={300}
             />
         </div>
 
         <div className="col-span-12 md:mt-5 md:col-span-4 flex items-center justify-center md:order-none order-last md:mr-10">
-            <img
+            <Image
                 src="/mario.png"
                 alt="Mario"
                 className="max-h-[25vh] w-auto object-cover object-[center_bottom]"
+                width={300}
+                height={300}
             />
         </div>
 
         <div className="col-span-12 md:col-span-3 md:mt-12 text-left space-y-3 md:mb-10">
             <p className="text-yellow-400 text-xl">The 8-Bit Era</p>
             <p className="text-lg md:text-xl md:w-[220%]">
-                Traditional crafts like cross-stitch, mosaics, and beadwork share striking
-                similarities with pixel art, using small coloured units to create larger images.
+                The 8-bit era, exemplified by games like <i>Super Mario Bros.</i> (1985),
+                marked a significant evolution in pixel art, with more detailed sprites and
+                iconic designs that remain beloved today.
             </p>
         </div>
     </div>
-);
-
+)
 
 const GoldenAgeSlide = () => (
     <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
@@ -90,10 +108,12 @@ const GoldenAgeSlide = () => (
 
         {/* --------  row 1:  PIC left / TEXT right  -------- */}
         <div className="col-span-12 md:col-span-5 flex items-center justify-center">
-            <img
+            <Image
                 src="/street_fighter.jpeg"
                 alt="Street Fighter"
                 className="w-auto max-h-[25vh] object-contain"
+                width={300}
+                height={300}
             />
         </div>
 
@@ -107,7 +127,7 @@ const GoldenAgeSlide = () => (
 
             <p className="text-yellow-400 text-xl mt-4">Demoscene Movement</p>
             <p className="text-lg md:text-xl">
-                European artists formed the “demoscene,” creating elaborate pixel-art intros
+                European artists formed the &quot;demoscene,&quot; creating elaborate pixel-art intros
                 and demos for cracked games. This underground movement elevated pixel art
                 to a respected art form.
             </p>
@@ -118,30 +138,31 @@ const GoldenAgeSlide = () => (
             <p className="text-yellow-400 text-xl">Professional Adoption</p>
             <p className="text-lg md:text-xl md:w-[120%]">
                 Companies like LucasArts (<i>Maniac Mansion</i>, <i>Zak McKracken</i>)
-                and Sierra (<i>King's Quest</i>) hired professional artists, legitimizing
+                and Sierra (<i>King&apos;s Quest</i>) hired professional artists, legitimizing
                 pixel art in commercial game development.
             </p>
         </div>
 
         <div className="col-span-12 md:col-span-5 flex items-center justify-center md:ml-25 md:mt-10">
             <div className="w-full h-36 md:h-40 overflow-hidden">
-                <img
+                <Image
                     src="/king_quest.jpeg"
                     alt="King's Quest"
                     className="w-full h-[15vh] object-cover object-[center_bottom]"
+                    width={300}
+                    height={300}
                 />
             </div>
         </div>
     </div>
-);
-
+)
 
 const IndieRenaissanceSlide = () => (
     <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
         <div className="col-span-12 md:col-span-7 text-left space-y-3">
             <h2 className="text-4xl md:text-5xl">Indie Renaissance (2000s-2010s)</h2>
 
-            <div className="md:mt-20">
+            <div className="md:mt-10">
                 <p className="text-yellow-400 text-xl">Online Communities</p>
                 <p className="text-lg md:text-xl w-[80%]">
                     Websites like Pixelation (2005) and Pixel Joint became hubs for pixel artists worldwide, fostering technique sharing and community growth.
@@ -150,18 +171,22 @@ const IndieRenaissanceSlide = () => (
         </div>
 
         <div className="col-span-12 md:mt-20 md:col-span-5 flex items-center justify-center">
-            <img
+            <Image
                 src="/shovel_night_vntu.jpeg"
-                alt="Mosaic"
+                alt="Shovel Knight"
                 className="w-auto max-h-[35vh] mr-2 md:mr-40 object-contain"
+                width={300}
+                height={300}
             />
         </div>
 
         <div className="col-span-12 md:col-span-4 md:mt-[-100px] flex items-center justify-center md:order-none order-last md:mr-10">
-            <img
+            <Image
                 src="/undertale.png"
-                alt="Mario"
+                alt="Undertale"
                 className="max-h-[40vh] w-auto object-cover object-[center_bottom]"
+                width={300}
+                height={300}
             />
         </div>
 
@@ -177,7 +202,7 @@ const IndieRenaissanceSlide = () => (
             </p>
         </div>
     </div>
-);
+)
 
 const ContemporaryArtSlide = () => (
     <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
@@ -188,10 +213,12 @@ const ContemporaryArtSlide = () => (
 
         {/* --------  row 1:  PIC left / TEXT right  -------- */}
         <div className="col-span-12 md:col-span-5 flex items-center justify-center">
-            <img
-                src="eboy.gif"
-                alt="Street Fighter"
+            <Image
+                src="/eboy.gif"
+                alt="eBoy pixel art"
                 className="w-auto max-h-[17vh] object-contain md:ml-[-100px]"
+                width={300}
+                height={300}
             />
         </div>
 
@@ -212,55 +239,62 @@ const ContemporaryArtSlide = () => (
 
         <div className="col-span-12 md:col-span-5 flex items-center justify-center position-relative md:ml-35 md:mt-5">
             <div className="w-full ml-20 md:ml-0 h-36 md:h-40 overflow-hidden">
-                <img
+                <Image
                     src="/vntu_coin.png"
-                    alt="King's Quest"
+                    alt="VNTU coin"
                     className="w-auto h-[15vh] md:h-[16vh]"
+                    width={300}
+                    height={300}
                 />
             </div>
         </div>
-        {/* --------  row 1:  PIC left / TEXT right  -------- */}
+        {/* --------  row 3:  PIC left / TEXT right  -------- */}
         <div className="col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
-            <img
+            <Image
                 src="/invader.jpeg"
-                alt="Street Fighter"
+                alt="Invader street art"
                 className="w-auto max-h-[25vh] object-contain"
+                width={300}
+                height={300}
             />
         </div>
 
         <div className="col-span-12 md:col-span-7 text-left space-y-3 md:mt-5 md:mr-10">
             <p className="text-yellow-400 text-xl">Continued Innovation</p>
             <p className="text-lg md:text-xl">
-                Modern pixel artists push boundaries with techniques like "HD pixel art" (high-resolution pixel work) and isometric designs, while maintaining the medium's core aesthetic.
+                Modern pixel artists push boundaries with techniques like &quot;HD pixel art&quot; (high-resolution pixel work) and isometric designs, while maintaining the medium&apos;s core aesthetic.
             </p>
         </div>
     </div>
-);
+)
 
 export default function History() {
     return (
         <>
-            <Header activePage='history' />
+            <Header activePage="history" />
             <div
                 style={{
-                    backgroundImage: `linear-gradient(rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
+                    backgroundImage: `linear-gradient(rgba(44,44,44,0.68), rgba(44,44,44,0.68)), url('/hero_section_art.png')`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                 }}
                 className="flex flex-col min-h-screen text-white"
             >
-                <div className='flex flex-col items-center justify-center text-center'>
-                    <h1 className='text-5xl text-center mb-4 mt-15'>History of Pixel Art</h1>
-                    <div className='w-full md:w-[70%] h-[40%] justify-center items-center'>
-                        <Presentation bg='rgb(44,44,44)' slides={[
-                            <EarlyOriginsSlide />,
-                            <GoldenAgeSlide />,
-                            <IndieRenaissanceSlide />,
-                            <ContemporaryArtSlide />
-                        ]} />
+                <div className="flex flex-col items-center justify-center text-center">
+                    <h1 className="text-5xl text-center mb-4 mt-15">History of Pixel Art</h1>
+                    <div className="w-full md:w-[70%] h-[40%] justify-center items-center">
+                        <Presentation
+                            bg="rgb(44,44,44)"
+                            slides={[
+                                <EarlyOriginsSlide key="early-origins" />,
+                                <GoldenAgeSlide key="golden-age" />,
+                                <IndieRenaissanceSlide key="indie-renaissance" />,
+                                <ContemporaryArtSlide key="contemporary-art" />
+                            ]}
+                        />
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
         </>
-    );
+    )
 }

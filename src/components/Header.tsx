@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface HeaderProps {
     activePage: 'home' | 'history' | 'practice' | 'about';
@@ -22,10 +23,10 @@ const Header: React.FC<HeaderProps> = ({ activePage }) => {
         <header className="relative bg-[rgb(44,44,44)] text-yellow-400 px-4 py-2 border-b-4 border-yellow-400 z-40">
             <div className="flex items-center justify-between h-full">
 
-                <img src="/logo_green_bg.png" alt="Logo" className="w-15 hidden md:flex" />
+                <Image width={50} height={50} src="/logo_green_bg.png" alt="Logo" className="w-15 hidden md:flex" />
 
                 <div className="md:hidden flex items-center space-x-3">
-                    <img src="/logo_green_bg.png" alt="Logo" className="w-15" />
+                    <Image width={50} height={50} src="/logo_green_bg.png" alt="Logo" className="w-15" />
                     {(!isMenuOpen) &&
                         <span className="text-3xl font-mono uppercase tracking-wider text-yellow-300">
                             {currentPageLabel}

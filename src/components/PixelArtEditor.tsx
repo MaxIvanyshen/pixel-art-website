@@ -9,6 +9,8 @@ type Pixel = string | null
 const clonePixels = (src: Pixel[][]) => src.map(row => [...row])
 
 const savePixelsToLocalStorage = (pixels: Pixel[][]) => {
+    if (typeof window === 'undefined') return
+
     try {
         localStorage.setItem('pixelArt', JSON.stringify(pixels))
         console.log('Pixel art saved to localStorage')
@@ -18,6 +20,7 @@ const savePixelsToLocalStorage = (pixels: Pixel[][]) => {
 }
 
 const readPixelsFromLocalStorage = (): Pixel[][] | null => {
+    if (typeof window === 'undefined') return null
     try {
         const data = localStorage.getItem('pixelArt')
         if (data) {
@@ -89,7 +92,6 @@ export default function PixelArtEditor({
 
         return () => clearInterval(interval)
     }, [pixels])
-
 
     // Paint a pixel
     const paintPixel = useCallback(
@@ -176,17 +178,18 @@ export default function PixelArtEditor({
         setOffset(prev => clampOffset(prev.x, prev.y))
     }, [pixelSize, clampOffset])
 
-    const undo = () => {
+    const undo = useCallback(() => {
         if (!undoStack.current.length) return
         redoStack.current.push(clonePixels(pixels))
         setPixels(undoStack.current.pop()!)
-    }
+    }, [pixels])
 
-    const redo = () => {
+    const redo = useCallback(() => {
         if (!redoStack.current.length) return
         undoStack.current.push(clonePixels(pixels))
         setPixels(redoStack.current.pop()!)
-    }
+    }, [pixels])
+
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if (e.code === 'Space') {
@@ -274,7 +277,6 @@ export default function PixelArtEditor({
         setPixels(Array.from({ length: rows }, () => Array(columns).fill(null)))
         redoStack.current = []
     }
-
 
     const downloadImage = () => {
         const canvas = canvasRef.current
