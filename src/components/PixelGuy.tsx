@@ -3,6 +3,8 @@ import "./pixelGuy.css";
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
+const MOBILE_BREAKPOINT = 768; // px
+
 interface PixelGuyProps {
     minHeight?: number; // rem
     maxHeight?: number; // rem
@@ -28,12 +30,19 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
         interval = 3000;
     }
 
+    const isMobile = typeof window !== "undefined" ? window.innerWidth < MOBILE_BREAKPOINT : false;
+
     const randomize = useCallback(() => {
         const randomWidth = Math.random() * (maxWidth - minWidth) + minWidth;
         const randomHeight = Math.random() * (maxHeight - minHeight) + minHeight;
-        const randomRight = Math.random() * 80; // 0–80% of viewport width
+        let randomRight = 0;
+        if (isMobile) {
+            randomRight = Math.random() * 50; // 0–50% of viewport width
+        } else {
+            randomRight = Math.random() * 80; // 0–80% of viewport width
+        }
         return { size: { width: randomWidth, height: randomHeight }, position: { right: randomRight } };
-    }, [minWidth, maxWidth, minHeight, maxHeight]);
+    }, [minWidth, maxWidth, minHeight, maxHeight, isMobile]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
