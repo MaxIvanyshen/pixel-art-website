@@ -1,9 +1,20 @@
 'use client'
 import Header from '@/components/Header'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Image from 'next/image'
 
 const Clicker = (slides: React.ReactNode[], slideIdx: number, setSlideIdx: Dispatch<SetStateAction<number>>) => {
+    const scrollToTop = () => {
+        if (typeof window === 'undefined') return;
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 200);
+    }
+
+    useEffect(() => {
+        scrollToTop();
+    }, [slideIdx]);
+
     return (
         <div className="w-full flex flex-col justify-between items-center p-4">
             <div className="text-white flex flex-row items-center justify-center">
