@@ -41,13 +41,13 @@ const Header: React.FC<HeaderProps> = ({ activePage }) => {
                                 <Link
                                     href={item.href}
                                     className={`
-                text-3xl font-mono uppercase tracking-wider
-                ${activePage === item.key
+                                        text-3xl font-mono uppercase
+                                        ${activePage === item.key
                                             ? 'text-yellow-300'
                                             : 'text-gray-300 hover:text-yellow-300 transition-colors'
                                         }
-                [text-shadow:1px_1px_0px_rgba(0,0,0,0.8)]
-                `}
+                                        [text-shadow:1px_1px_0px_rgba(0,0,0,0.8)]
+                                    `}
                                 >
                                     {item.label}
                                 </Link>
