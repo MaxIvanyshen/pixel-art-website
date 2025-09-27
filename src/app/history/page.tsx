@@ -80,13 +80,24 @@ const EarlyOriginsSlide = () => (
     </div>
 );
 
-/* ---------- 3.  Golden Age – BIGGER ---------- */
-const GoldenAgeSlide = () => (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
-        {/* row 1 */}
-        <div className="col-span-12 md:col-span-7 text-left space-y-3">
-            <h2 className="text-4xl md:text-5xl mb-3">Golden Era (1990s)</h2>
 
+const GoldenAgeSlide = () => (
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
+        {/* --------  title (always full-width, left-aligned)  -------- */}
+        <div className="col-span-12 text-left">
+            <h2 className="text-4xl md:text-5xl mb-3">Golden Era (1990s)</h2>
+        </div>
+
+        {/* --------  row 1:  PIC left / TEXT right  -------- */}
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center">
+            <img
+                src="/street_fighter.jpeg"
+                alt="Street Fighter"
+                className="w-auto max-h-[25vh] object-contain"
+            />
+        </div>
+
+        <div className="col-span-12 md:col-span-7 text-left space-y-3">
             <p className="text-yellow-400 text-xl">16-Bit Advancement</p>
             <p className="text-lg md:text-xl">
                 The Super Nintendo and Sega Genesis introduced more colours and higher
@@ -102,16 +113,17 @@ const GoldenAgeSlide = () => (
             </p>
         </div>
 
-        <div className="col-span-12 md:col-span-4 flex items-center justify-center">
-            <img
-                src="/street_fighter.jpeg"
-                alt="Street Fighter"
-                className="w-auto md:mt-15 max-h-[25vh] object-contain"
-            />
+        {/* --------  row 2:  TEXT left / PIC right  -------- */}
+        <div className="col-span-12 md:col-span-5 text-left space-y-4 md:mt-5 md:mr-15">
+            <p className="text-yellow-400 text-xl">Professional Adoption</p>
+            <p className="text-lg md:text-xl md:w-[120%]">
+                Companies like LucasArts (<i>Maniac Mansion</i>, <i>Zak McKracken</i>)
+                and Sierra (<i>King's Quest</i>) hired professional artists, legitimizing
+                pixel art in commercial game development.
+            </p>
         </div>
 
-        {/* row 2 – bottom-cropped King's Quest (bigger crop box) */}
-        <div className="col-span-12 md:col-span-5 flex items-center justify-center mr-10">
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center md:ml-25 md:mt-10">
             <div className="w-full h-36 md:h-40 overflow-hidden">
                 <img
                     src="/king_quest.jpeg"
@@ -120,27 +132,108 @@ const GoldenAgeSlide = () => (
                 />
             </div>
         </div>
+    </div>
+);
 
-        <div className="col-span-12 md:mt-6 md:col-span-7 md:mb-10 text-left space-y-3">
-            <p className="text-yellow-400 text-xl">Professional Adoption</p>
-            <p className="text-lg md:text-xl md:w-[70%]">
-                Companies like LucasArts (<i>Maniac Mansion</i>, <i>Zak McKracken</i>)
-                and Sierra (<i>King's Quest</i>) hired professional artists, legitimizing
-                pixel art in commercial game development.
+
+const IndieRenaissanceSlide = () => (
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
+        <div className="col-span-12 md:col-span-7 text-left space-y-3">
+            <h2 className="text-4xl md:text-5xl">Indie Renaissance (2000s-2010s)</h2>
+
+            <div className="md:mt-20">
+                <p className="text-yellow-400 text-xl">Online Communities</p>
+                <p className="text-lg md:text-xl w-[80%]">
+                    Websites like Pixelation (2005) and Pixel Joint became hubs for pixel artists worldwide, fostering technique sharing and community growth.
+                </p>
+            </div>
+        </div>
+
+        <div className="col-span-12 md:mt-20 md:col-span-5 flex items-center justify-center">
+            <img
+                src="/shovel_night_vntu.jpeg"
+                alt="Mosaic"
+                className="w-auto max-h-[35vh] mr-2 md:mr-40 object-contain"
+            />
+        </div>
+
+        <div className="col-span-12 md:col-span-4 md:mt-[-100px] flex items-center justify-center md:order-none order-last md:mr-10">
+            <img
+                src="/undertale.png"
+                alt="Mario"
+                className="max-h-[40vh] w-auto object-cover object-[center_bottom]"
+            />
+        </div>
+
+        <div className="col-span-12 md:col-span-3 md:mt-5 text-left space-y-3">
+            <p className="text-yellow-400 text-xl">Modern Tools</p>
+            <p className="text-lg md:text-xl md:w-[220%]">
+                Software like Aseprite and Piskel democratized pixel art creation, making it accessible to new generations of artists.
+            </p>
+
+            <p className="text-yellow-400 text-xl">Indie Game Revival</p>
+            <p className="text-lg md:text-xl md:w-[220%]">
+                Games like <i>Fez</i> (2012), <i>Shovel Knight</i> (2014), and <i>Undertale</i> (2015) brought pixel art back into mainstream gaming, proving its enduring appeal.
             </p>
         </div>
     </div>
 );
 
-const IndieRenaissanceSlide = () => (
-    <div className="px-4 py-4">
-        <h2 className="text-3xl md:text-5xl text-left">Indie Renaissance (2000s-2010s)</h2>
-    </div>
-);
-
 const ContemporaryArtSlide = () => (
-    <div className="px-4 py-4">
-        <h2 className="text-3xl md:text-5xl text-left">Contemporary Pixel Art (2020s)</h2>
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
+        {/* --------  title (always full-width, left-aligned)  -------- */}
+        <div className="col-span-12 text-left">
+            <h2 className="text-4xl md:text-5xl mb-3">Contemporary Pixel Art (2020s)</h2>
+        </div>
+
+        {/* --------  row 1:  PIC left / TEXT right  -------- */}
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center">
+            <img
+                src="eboy.gif"
+                alt="Street Fighter"
+                className="w-auto max-h-[17vh] object-contain md:ml-[-100px]"
+            />
+        </div>
+
+        <div className="col-span-12 md:col-span-7 text-left space-y-3 md:mt-5 md:ml-[-100px]">
+            <p className="text-yellow-400 text-xl">Cultural Impact</p>
+            <p className="text-lg md:text-xl w-[80%]">
+                Pixel art has transcended gaming, appearing in advertising, fashion, and fine art. Artists like eBoy and Invader have brought pixel aesthetics to galleries and city streets worldwide.
+            </p>
+        </div>
+
+        {/* --------  row 2:  TEXT left / PIC right  -------- */}
+        <div className="col-span-12 md:col-span-5 text-left space-y-4 md:mt-5 md:ml-35">
+            <p className="text-yellow-400 text-xl">NFT Controversy</p>
+            <p className="text-lg md:text-xl md:w-[120%]">
+                The rise of NFTs saw both adoption and backlash from pixel artists, highlighting ongoing debates about digital art ownership and environmental concerns.
+            </p>
+        </div>
+
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center position-relative md:ml-35 md:mt-5">
+            <div className="w-full ml-20 md:ml-0 h-36 md:h-40 overflow-hidden">
+                <img
+                    src="/vntu_coin.png"
+                    alt="King's Quest"
+                    className="w-auto h-[15vh] md:h-[16vh]"
+                />
+            </div>
+        </div>
+        {/* --------  row 1:  PIC left / TEXT right  -------- */}
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
+            <img
+                src="/invader.jpeg"
+                alt="Street Fighter"
+                className="w-auto max-h-[25vh] object-contain"
+            />
+        </div>
+
+        <div className="col-span-12 md:col-span-7 text-left space-y-3 md:mt-5 md:mr-10">
+            <p className="text-yellow-400 text-xl">Continued Innovation</p>
+            <p className="text-lg md:text-xl">
+                Modern pixel artists push boundaries with techniques like "HD pixel art" (high-resolution pixel work) and isometric designs, while maintaining the medium's core aesthetic.
+            </p>
+        </div>
     </div>
 );
 
