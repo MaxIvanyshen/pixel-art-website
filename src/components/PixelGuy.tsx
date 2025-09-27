@@ -76,6 +76,7 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
                     width={size.width * 16} // Convert rem to px (1rem = 16px)
                     height={size.height * 16} // Convert rem to px (1rem = 16px)
                     draggable={false}
+                    unoptimized={true} // Prevent Next.js optimization to allow GIF reset
                 />
             )}
         </div>
