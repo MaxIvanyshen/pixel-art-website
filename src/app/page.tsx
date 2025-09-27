@@ -14,7 +14,7 @@ export default function Home() {
                 className="flex flex-col min-h-screen text-white"
             >
                 <div className='flex flex-col items-center justify-center text-center md:mt-120 mt-100 flex-grow px-4'>
-                    <a href='/practice'><Button className='bg-yellow-300' size={'xxl'}>TRY IT YOURSELF</Button></a>
+                    <a href='/practice'><Button className='bg-yellow-300' size={'xxl'}>TRY PIXEL ART</Button></a>
                 </div>
             </div >
         </>
