@@ -50,7 +50,7 @@ const Presentation: React.FC<PresentationProps> = ({ slides, bg }) => {
 }
 
 const EarlyOriginsSlide = () => (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 md:ml-5 pt-4">
         <div className="col-span-12 md:col-span-7 text-left space-y-3">
             <h2 className="text-4xl md:text-5xl">Early Origins</h2>
 
@@ -100,7 +100,7 @@ const EarlyOriginsSlide = () => (
 )
 
 const GoldenAgeSlide = () => (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 md:ml-5 pt-4">
         {/* --------  title (always full-width, left-aligned)  -------- */}
         <div className="col-span-12 text-left">
             <h2 className="text-4xl md:text-5xl mb-3">Golden Era (1990s)</h2>
@@ -158,7 +158,7 @@ const GoldenAgeSlide = () => (
 )
 
 const IndieRenaissanceSlide = () => (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 ml-5 pt-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 px-4 md:ml-5 pt-4">
         <div className="col-span-12 md:col-span-7 text-left space-y-3">
             <h2 className="text-4xl md:text-5xl">Indie Renaissance (2000s-2010s)</h2>
 
@@ -205,7 +205,7 @@ const IndieRenaissanceSlide = () => (
 )
 
 const ContemporaryArtSlide = () => (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 ml-5 pt-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 px-4 md:ml-5 pt-4">
         {/* --------  title (always full-width, left-aligned)  -------- */}
         <div className="col-span-12 text-left">
             <h2 className="text-4xl md:text-5xl mb-3">Contemporary Pixel Art (2020s)</h2>
@@ -238,7 +238,7 @@ const ContemporaryArtSlide = () => (
         </div>
 
         <div className="col-span-12 md:col-span-5 flex items-center justify-center position-relative md:ml-35 md:mt-5">
-            <div className="w-full ml-20 md:ml-0 h-36 md:h-40 overflow-hidden">
+            <div className="w-full ml-16 md:ml-20 md:ml-0 h-36 md:h-40 overflow-hidden">
                 <Image
                     src="/vntu_coin.png"
                     alt="VNTU coin"
@@ -249,7 +249,7 @@ const ContemporaryArtSlide = () => (
             </div>
         </div>
         {/* --------  row 3:  PIC left / TEXT right  -------- */}
-        <div className="col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
+        <div className="hidden md:inline col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
             <Image
                 src="/invader.jpeg"
                 alt="Invader street art"
@@ -264,6 +264,16 @@ const ContemporaryArtSlide = () => (
             <p className="text-lg md:text-xl">
                 Modern pixel artists push boundaries with techniques like &quot;HD pixel art&quot; (high-resolution pixel work) and isometric designs, while maintaining the medium&apos;s core aesthetic.
             </p>
+        </div>
+
+        <div className="md:hidden col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
+            <Image
+                src="/invader.jpeg"
+                alt="Invader street art"
+                className="w-auto max-h-[25vh] object-contain"
+                width={300}
+                height={300}
+            />
         </div>
     </div>
 )

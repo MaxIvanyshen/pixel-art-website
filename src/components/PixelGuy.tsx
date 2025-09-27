@@ -64,6 +64,9 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
                     className="pixel-guy"
                     id="pixel-guy"
                     key={animationKey} // Force remount to restart animation and GIF
+                    width={size.width * 16} // Convert rem to px (1rem = 16px)
+                    height={size.height * 16} // Convert rem to px (1rem = 16px)
+                    draggable={false}
                 />
             )}
         </div>

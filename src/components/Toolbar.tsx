@@ -67,7 +67,7 @@ export default function Toolbar({
     onZoomOut,
 }: ToolbarProps) {
     return (
-        <div className="flex flex-wrap gap-2 items-center bg-[rgb(44,44,44)] p-2 border-b-4 border-yellow-400">
+        <div className="flex flex-col md:flex-row flex-wrap gap-2 items-center bg-[rgb(44,44,44)] p-2 border-b-4 border-yellow-400">
             <Btn label="Clear" icon={FaTrash} onClick={onClear} />
             <Btn label="Undo" icon={FaUndo} onClick={onUndo} disabled={!canUndo} />
             <Btn label="Redo" icon={FaRedo} onClick={onRedo} disabled={!canRedo} />
