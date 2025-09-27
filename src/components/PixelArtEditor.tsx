@@ -11,6 +11,7 @@ const clonePixels = (src: Pixel[][]) => src.map(row => [...row])
 const savePixelsToLocalStorage = (pixels: Pixel[][]) => {
     try {
         localStorage.setItem('pixelArt', JSON.stringify(pixels));
+        console.log('Pixel art saved to localStorage');
     } catch (e) {
         console.error('Failed to save pixel art to localStorage:', e);
     }
@@ -47,11 +48,10 @@ export default function PixelArtEditor({
 }: PixelArtEditorProps) {
 
     // try to load saved pixels from localStorage
-    readPixelsFromLocalStorage();
 
     setInterval(() => {
         savePixelsToLocalStorage(pixels);
-    }, 5000); // save every 5 seconds
+    }, 25000); // save every 5 seconds
 
     const [pixelSize, setPixelSize] = useState(initialPixelSize);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -64,6 +64,8 @@ export default function PixelArtEditor({
     const [isDrawing, setIsDrawing] = useState(false);
     const [isPanning, setIsPanning] = useState(false);
     const [moveMode, setMoveMode] = useState(false);
+    const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+    const [justCleared, setJustCleared] = useState(false);
 
     const panStart = useRef({ x: 0, y: 0 });
     const offsetStart = useRef({ x: 0, y: 0 });
@@ -166,6 +168,17 @@ export default function PixelArtEditor({
     }, [columns, rows, pixelSize]);
 
     useEffect(() => {
+        if (!justCleared && !loadedFromStorage) {
+            const savedPixels = readPixelsFromLocalStorage();
+            if (savedPixels) {
+                setPixels(savedPixels);
+                setLoadedFromStorage(true);
+            }
+        }
+    }, [justCleared, loadedFromStorage]);
+
+
+    useEffect(() => {
         setOffset(prev => clampOffset(prev.x, prev.y));
     }, [pixelSize, clampOffset]);
 
@@ -258,6 +271,9 @@ export default function PixelArtEditor({
         undoStack.current.push(clonePixels(pixels));
         setPixels(Array.from({ length: rows }, () => Array(columns).fill(null)));
         redoStack.current = [];
+        if (!justCleared) {
+            setJustCleared(true);
+        }
     }
 
     const undo = () => {
