@@ -25,7 +25,7 @@ export default function About() {
                         </div>
                         <div className="w-full bg-[rgb(44,44,44)] p-5  md:w-3/5 md:p-6">
                             <h1 className="text-xl font-mono text-center mb-3 md:text-2xl md:mb-4">About Me And This Website</h1>
-                            <div className="text-sm text-justify leading-relaxed md:text-xl">
+                            <div className="text-lg text-justify leading-relaxed md:text-xl">
                                 <p>
                                     Hi! I'm Max Ivanyshen, a Software Engineering student at VNTU (Vinnytsia
                                     National Technical University).
@@ -48,7 +48,7 @@ export default function About() {
                     <div className="flex flex-col w-full max-w-5xl mx-auto mt-4 gap-4 md:flex-row md:mt-3 md:items-stretch mb-10">
                         <div className="w-full bg-[rgb(44,44,44)] p-5  md:w-1/2 md:p-6">
                             <h1 className="text-xl font-mono text-center mb-3 md:text-2xl md:mb-4">Technologies</h1>
-                            <div className="text-sm text-justify leading-relaxed md:text-xl">
+                            <div className="text-lg text-justify leading-relaxed md:text-xl">
                                 This website is built using the following technologies:
                                 <ul className="list-disc list-inside mt-2">
                                     <li>Next.js for client-side and server-side rendering and routing</li>
@@ -60,7 +60,7 @@ export default function About() {
                         </div>
                         <div className="w-full bg-[rgb(44,44,44)] p-5  md:w-1/2 md:p-6">
                             <h1 className="text-xl font-mono text-center mb-3 md:text-2xl mb-4">Connect With Me</h1>
-                            <div className="text-sm leading-relaxed md:text-3xl">
+                            <div className="text-lg leading-relaxed md:text-3xl">
                                 <div className="flex items-center justify-center gap-2 mb-2">
                                     <FaGithub className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
                                     <a
