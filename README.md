@@ -2,6 +2,10 @@
 
 A web-based pixel art editor and gallery application built as part of computer graphics coursework at VNTU.
 
+## Demo
+
+View the live application at [https://pixel-art-nine-ecru.vercel.app/](https://pixel-art-nine-ecru.vercel.app/)
+
 ## Features
 
 - **Pixel Art Editor**: Interactive canvas for creating and editing pixel art
