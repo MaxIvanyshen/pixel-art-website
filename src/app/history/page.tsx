@@ -12,7 +12,8 @@ const Clicker = (slides: React.ReactNode[], slideIdx: number, setSlideIdx: Dispa
     }
 
     useEffect(() => {
-        scrollToTop();
+        const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;
+        if (isMobile) scrollToTop();
     }, [slideIdx]);
 
     return (
@@ -191,7 +192,7 @@ const IndieRenaissanceSlide = () => (
             />
         </div>
 
-        <div className="col-span-12 md:col-span-4 md:mt-[-100px] flex items-center justify-center md:order-none order-last md:mr-10">
+        <div className="col-span-12 md:col-span-4 flex items-center justify-center md:order-none order-last md:mr-10">
             <Image
                 src="/undertale.png"
                 alt="Undertale"
@@ -243,12 +244,12 @@ const ContemporaryArtSlide = () => (
         {/* --------  row 2:  TEXT left / PIC right  -------- */}
         <div className="col-span-12 md:col-span-5 text-left space-y-4 md:mt-5 md:ml-35">
             <p className="text-yellow-400 text-xl">NFT Controversy</p>
-            <p className="text-lg md:text-xl md:w-[120%]">
+            <p className="text-lg md:text-xl md:w-[150%]">
                 The rise of NFTs saw both adoption and backlash from pixel artists, highlighting ongoing debates about digital art ownership and environmental concerns.
             </p>
         </div>
 
-        <div className="col-span-12 md:col-span-5 flex items-center justify-center position-relative md:ml-35 md:mt-5">
+        <div className="col-span-12 md:col-span-5 flex items-center justify-center position-relative md:ml-30 md:mt-5">
             <div className="w-full ml-16 md:ml-20 md:ml-0 h-36 md:h-40 overflow-hidden">
                 <Image
                     src="/vntu_coin.png"
@@ -260,7 +261,7 @@ const ContemporaryArtSlide = () => (
             </div>
         </div>
         {/* --------  row 3:  PIC left / TEXT right  -------- */}
-        <div className="hidden md:inline col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
+        <div className="hidden md:inline md:mt-1 col-span-12 md:col-span-5 flex items-center justify-center md:mr-10">
             <Image
                 src="/invader.jpeg"
                 alt="Invader street art"
@@ -270,7 +271,7 @@ const ContemporaryArtSlide = () => (
             />
         </div>
 
-        <div className="col-span-12 md:col-span-7 text-left space-y-3 md:mt-5 md:mr-10">
+        <div className="col-span-12 md:col-span-7 text-left space-y-3  md:mr-10">
             <p className="text-yellow-400 text-xl">Continued Innovation</p>
             <p className="text-lg md:text-xl">
                 Modern pixel artists push boundaries with techniques like &quot;HD pixel art&quot; (high-resolution pixel work) and isometric designs, while maintaining the medium&apos;s core aesthetic.
