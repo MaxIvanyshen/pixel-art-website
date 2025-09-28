@@ -2,8 +2,7 @@
 import "./pixelGuy.css";
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-
-const MOBILE_BREAKPOINT = 768; // px
+import isMobile from '@/utils/is_mobile';
 
 interface PixelGuyProps {
     minHeight?: number; // rem
@@ -30,13 +29,11 @@ const PixelGuy: React.FC<PixelGuyProps> = ({
         interval = 3000;
     }
 
-    const isMobile = typeof window !== "undefined" ? window.innerWidth < MOBILE_BREAKPOINT : false;
-
     const randomize = useCallback(() => {
         const randomWidth = Math.random() * (maxWidth - minWidth) + minWidth;
         const randomHeight = Math.random() * (maxHeight - minHeight) + minHeight;
         let randomRight = 0;
-        if (isMobile) {
+        if (isMobile()) {
             randomRight = Math.random() * 50; // 0–50% of viewport width
         } else {
             randomRight = Math.random() * 80; // 0–80% of viewport width

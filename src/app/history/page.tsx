@@ -2,6 +2,7 @@
 import Header from '@/components/Header'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Image from 'next/image'
+import isMobile from '@/utils/is_mobile'
 
 const Clicker = (slides: React.ReactNode[], slideIdx: number, setSlideIdx: Dispatch<SetStateAction<number>>) => {
     const scrollToTop = () => {
@@ -12,8 +13,7 @@ const Clicker = (slides: React.ReactNode[], slideIdx: number, setSlideIdx: Dispa
     }
 
     useEffect(() => {
-        const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;
-        if (isMobile) scrollToTop();
+        if (isMobile()) scrollToTop();
     }, [slideIdx]);
 
     return (
