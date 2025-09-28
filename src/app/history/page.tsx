@@ -52,7 +52,7 @@ const Presentation: React.FC<PresentationProps> = ({ slides, bg }) => {
 
     return (
         <div
-            className={`text-white bg-[${bg}] w-full md:max-h-[70vh] flex flex-col justify-between overflow-hidden`}
+            className={`text-white bg-[${bg}] w-full flex flex-col mb-5 justify-between overflow-hidden`}
         >
             <div className="flex-1 overflow-hidden">{slides[slideIdx]}</div>
             <div className="shrink-0">{Clicker(slides, slideIdx, setSlideIdx)}</div>
