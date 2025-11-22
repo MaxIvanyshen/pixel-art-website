@@ -158,11 +158,11 @@ const GoldenAgeSlide = () => (
         <div className="col-span-12 md:col-span-5 flex items-center justify-center md:ml-25 md:mt-10">
             <div className="w-full h-36 md:h-40 overflow-hidden">
                 <Image
-                    src="/king_quest.jpeg"
+                    src="/king_quest.png"
                     alt="King's Quest"
                     className="w-full h-[15vh] object-cover object-[center_bottom]"
-                    width={300}
-                    height={300}
+                    width={400}
+                    height={400}
                 />
             </div>
         </div>
