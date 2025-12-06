@@ -87,6 +87,7 @@ const EarlyOriginsSlide = () => (
                 className="w-auto max-h-[28vh] mr-2 object-contain"
                 width={300}
                 height={300}
+                priority
             />
         </div>
 
@@ -97,6 +98,7 @@ const EarlyOriginsSlide = () => (
                 className="max-h-[25vh] w-auto object-cover object-[center_bottom]"
                 width={300}
                 height={300}
+                priority
             />
         </div>
 
@@ -126,6 +128,7 @@ const GoldenAgeSlide = () => (
                 className="w-auto max-h-[25vh] object-contain"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
 
@@ -163,6 +166,7 @@ const GoldenAgeSlide = () => (
                     className="w-full h-[15vh] object-cover object-[center_bottom]"
                     width={400}
                     height={400}
+                    loading="lazy"
                 />
             </div>
         </div>
@@ -189,6 +193,7 @@ const IndieRenaissanceSlide = () => (
                 className="w-auto max-h-[35vh] mr-2 md:mr-40 object-contain"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
 
@@ -199,6 +204,7 @@ const IndieRenaissanceSlide = () => (
                 className="max-h-[40vh] w-auto object-cover object-[center_bottom]"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
 
@@ -231,6 +237,7 @@ const ContemporaryArtSlide = () => (
                 className="w-auto max-h-[17vh] object-contain md:ml-[-100px]"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
 
@@ -257,6 +264,7 @@ const ContemporaryArtSlide = () => (
                     className="w-auto h-[15vh] md:h-[16vh]"
                     width={300}
                     height={300}
+                    loading="lazy"
                 />
             </div>
         </div>
@@ -268,6 +276,7 @@ const ContemporaryArtSlide = () => (
                 className="w-auto max-h-[25vh] object-contain"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
 
@@ -285,6 +294,7 @@ const ContemporaryArtSlide = () => (
                 className="w-auto max-h-[25vh] object-contain"
                 width={300}
                 height={300}
+                loading="lazy"
             />
         </div>
     </div>
