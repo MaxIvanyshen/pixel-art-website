@@ -226,7 +226,7 @@ const ContemporaryArtSlide = () => (
         {/* --------  row 1:  PIC left / TEXT right  -------- */}
         <div className="col-span-12 md:col-span-5 flex items-center justify-center">
             <Image
-                src="/eboy.gif"
+                src="/eboy.png"
                 alt="eBoy pixel art"
                 className="w-auto max-h-[17vh] object-contain md:ml-[-100px]"
                 width={300}
