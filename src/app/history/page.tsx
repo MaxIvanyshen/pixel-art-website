@@ -188,7 +188,7 @@ const IndieRenaissanceSlide = () => (
 
         <div className="col-span-12 md:mt-20 md:col-span-5 flex items-center justify-center">
             <Image
-                src="/shovel_night_vntu.jpeg"
+                src="/shovel_night.png"
                 alt="Shovel Knight"
                 className="w-auto max-h-[35vh] mr-2 md:mr-40 object-contain"
                 width={300}
